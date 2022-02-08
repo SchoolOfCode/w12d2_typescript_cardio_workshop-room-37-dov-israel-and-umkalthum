@@ -7,10 +7,10 @@ const elements = {
 };
 
 /** Some related "constants" which represent the various outcomes a round can have. */
-export const OUTCOMES = {
-  WIN: "WIN",
-  DRAW: "DRAW",
-  LOSS: "LOSS",
+enum Outcome {
+  WIN,
+  DRAW,
+  LOSS
 };
 
 /** Some related "constants" which represent the possible choices a player can make when playing. */
@@ -70,7 +70,7 @@ export function getOutcomeForRound(playerMove, computerMove) {
   const playerHasDrawn = playerMove === computerMove;
 
   if (playerHasDrawn) {
-    return OUTCOMES.DRAW;
+    return Outcome.DRAW;
   }
 
   const playerHasWon =
@@ -79,10 +79,10 @@ export function getOutcomeForRound(playerMove, computerMove) {
     (playerMove === CHOICES.ROCK && computerMove === CHOICES.SCISSORS);
 
   if (playerHasWon) {
-    return OUTCOMES.WIN;
+    return Outcome.WIN;
   }
 
-  return OUTCOMES.LOSS;
+  return Outcome.LOSS;
 }
 
 /** Should return a promise which resolves to an object containing information about the played round. */
@@ -103,11 +103,11 @@ export async function playGame() {
     const dataForRound = await playOneRound();
 
     switch (dataForRound.outcome) {
-      case OUTCOMES.WIN:
+      case Outcome.WIN:
         model.playerScore++;
         elements.playerScore.textContent = model.playerScore;
         break;
-      case OUTCOMES.LOSS:
+      case Outcome.LOSS:
         model.computerScore++;
         elements.computerScore.textContent = model.computerScore;
         break;
