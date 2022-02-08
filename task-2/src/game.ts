@@ -7,17 +7,17 @@ const elements = {
 };
 
 /** Some related "constants" which represent the various outcomes a round can have. */
-enum Outcome {
+export enum Outcome {
   WIN,
   DRAW,
   LOSS
 };
 
 /** Some related "constants" which represent the possible choices a player can make when playing. */
-export const CHOICES = {
-  ROCK: "ROCK",
-  PAPER: "PAPER",
-  SCISSORS: "SCISSORS",
+export enum Choice {
+  ROCK,
+  PAPER,
+  SCISSORS
 };
 
 /** Some basic game state, where things like scores are tracked. */
@@ -28,7 +28,7 @@ export const model = {
 
 /** Should return a a randomly selected choice. Either: "ROCK", "PAPER", "SCISSORS" */
 export function getRandomComputerMove() {
-  const possibleChoices = Object.values(CHOICES);
+  const possibleChoices = Object.values(Choice);
   const randomIndex = Math.trunc(Math.random() * possibleChoices.length);
   return possibleChoices[randomIndex];
 }
@@ -50,7 +50,7 @@ export function getPlayerMove() {
         const buttonWasClicked = event.target instanceof HTMLButtonElement;
         if (buttonWasClicked) {
           const rawChoice = event.target.dataset.choice;
-          const choice = CHOICES[rawChoice];
+          const choice = Choice[rawChoice];
           const choiceIsValid = undefined !== choice;
 
           if (choiceIsValid) {
@@ -74,9 +74,9 @@ export function getOutcomeForRound(playerMove, computerMove) {
   }
 
   const playerHasWon =
-    (playerMove === CHOICES.PAPER && computerMove === CHOICES.ROCK) ||
-    (playerMove === CHOICES.SCISSORS && computerMove === CHOICES.PAPER) ||
-    (playerMove === CHOICES.ROCK && computerMove === CHOICES.SCISSORS);
+    (playerMove === Choice.PAPER && computerMove === Choice.ROCK) ||
+    (playerMove === Choice.SCISSORS && computerMove === Choice.PAPER) ||
+    (playerMove === Choice.ROCK && computerMove === Choice.SCISSORS);
 
   if (playerHasWon) {
     return Outcome.WIN;
