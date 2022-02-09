@@ -8,16 +8,16 @@ const elements = {
 
 /** Some related "constants" which represent the various outcomes a round can have. */
 export enum Outcome {
-  WIN,
-  DRAW,
-  LOSS
+  WIN = 'WIN',
+  DRAW = 'DRAW',
+  LOSS = 'LOSS'
 };
 
 /** Some related "constants" which represent the possible choices a player can make when playing. */
 export enum Choice {
-  ROCK,
-  PAPER,
-  SCISSORS
+  ROCK = 'ROCK',
+  PAPER = 'PAPER',
+  SCISSORS = 'SCISSORS'
 };
 
 /** Some basic game state, where things like scores are tracked. */
@@ -27,7 +27,7 @@ export const model = {
 };
 
 /** Should return a a randomly selected choice. Either: "ROCK", "PAPER", "SCISSORS" */
-export function getRandomComputerMove() {
+export function getRandomComputerMove(): Choice {
   const possibleChoices = Object.values(Choice);
   const randomIndex = Math.trunc(Math.random() * possibleChoices.length);
   return possibleChoices[randomIndex];
@@ -42,7 +42,7 @@ export function getRandomComputerMove() {
  *
  * To avoid accumulating event listeners over multiple rounds and any memory leaks, we clean up after ourselves and remove when the event listener (when/if the promise is about to be resolved).
  */
-export function getPlayerMove() {
+export function getPlayerMove(): Promise<Choice> {
   return new Promise((resolve) => {
     elements.choiceButtons.addEventListener(
       "click",
@@ -66,7 +66,7 @@ export function getPlayerMove() {
 }
 
 /** Should return an outcome. Either "WIN", "LOSS" or "DRAW" */
-export function getOutcomeForRound(playerMove, computerMove) {
+export function getOutcomeForRound(playerMove: Choice, computerMove: Choice): Outcome {
   const playerHasDrawn = playerMove === computerMove;
 
   if (playerHasDrawn) {
